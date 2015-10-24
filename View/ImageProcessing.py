@@ -49,16 +49,21 @@ class ImageProcessing():
         self.image = self.image.convert('RGB')
 
     def createOccupiedPoints(self):
-        self.occupiedPoints = numpy.zeros((self.dimension[0], self.dimension[1]))
+        self.occupiedPoints = []
+        for idxX in range(self.dimension[0]):
+            self.occupiedPoints.append([])
+            for idxY in range(self.dimension[1]):
+                self.occupiedPoints[idxX].append(0)
         
     def getOccupiedPoints(self):
         return self.occupiedPoints
     
     def createWeightsOfPoints(self):
-        self.weightsOfPoints = numpy.zeros((self.dimension[0], self.dimension[1]))
+        self.weightsOfPoints = []
         for idxX in range(self.dimension[0]):
+            self.weightsOfPoints.append([])
             for idxY in range(self.dimension[1]):
-                self.weightsOfPoints[idxX, idxY] = self.image.getpixel((idxX, idxY))
+                self.weightsOfPoints[idxX].append(self.image.getpixel((idxX, idxY)))
                 
     def getWeightsOfPoints(self):
         return self.occupiedPoints

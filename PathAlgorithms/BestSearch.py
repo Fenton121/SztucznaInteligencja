@@ -4,12 +4,11 @@ class BestSearch():
     def search(self,
                occupiedPoints,
                weightsOfPoints):
-        startPoint = (10, 10)
-        stopPoint = (1000, 1000)
+        startPoint = (0, 0)
+        stopPoint =  (10, 10)
         listOfPath = [Path(startPoint)]
-        
-        while not(listOfPath[0].getCoordinate != stopPoint):
-            print "fajnie"
-            #print "listOfPath[0].getCoordinate() = " + str(listOfPath[0].getCoordinate()) + " " + str(type(listOfPath[0].getCoordinate()))
-            #print "stopPoint = " +  str(stopPoint) + " " + str(type(stopPoint))
+
+        while ( (listOfPath[0].getCoordinate()) != stopPoint):
+            actualPoint = listOfPath[0].getCoordinate()
+            occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
         

@@ -7,8 +7,8 @@ class PathFinder():
         
         self.loadImage()
         
-        bestSearch.search(self.imageProcessing.getOccupiedPoints,
-                          self.imageProcessing.getWeightsOfPoints)
+        bestSearch.search(self.imageProcessing.getOccupiedPoints(),
+                          self.imageProcessing.getWeightsOfPoints())
         self.dispaly()
         
     def loadImage(self):
