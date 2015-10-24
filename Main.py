@@ -1,18 +1,13 @@
 import sys
-sys.path.append("View")
+sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/View/")
+sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/PathAlgorithms/")
+sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/Images/")
 
-from ImageProcessing import ImageProcessing
 from PathFinder import PathFinder
 
-class Search:
-    def searchBestPath(self):
-        imageProcessing = ImageProcessing()
-        imageProcessing.processImage()
-        imageProcessing.createWeightsOfPoints()
-
 if __name__ == "__main__":
-    search = Search()
-    search.searchBestPath()
+    pathFinder = PathFinder();
+    pathFinder.searchBestPath()
 
     
 

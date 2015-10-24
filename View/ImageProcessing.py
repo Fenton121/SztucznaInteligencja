@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 import operator
 import numpy
+import sys
 
 class ImageProcessing():
 
@@ -10,6 +11,7 @@ class ImageProcessing():
         self.createOccupiedPoints()
         self.createWeightsOfPoints()
 
+    def convertAndDisplay(self):
         self.convertToRGB()
         self.drawPaths()
         self.showImage()
@@ -19,7 +21,8 @@ class ImageProcessing():
         print self.dimension
 
     def loadImage(self):
-        self.image= Image.open('bmp.bmp') 
+        print sys.path
+        self.image= Image.open('Images/bmp.bmp') 
 
     def drawPaths(self):
         draw = ImageDraw.Draw(self.image)
@@ -55,7 +58,7 @@ class ImageProcessing():
         self.weightsOfPoints = numpy.zeros((self.dimension[0], self.dimension[1]))
         for idxX in range(self.dimension[0]):
             for idxY in range(self.dimension[1]):
-                self.weightsOfPoints[idxX, idxY] = self.image.getpixel(idxX, idxY)
+                self.weightsOfPoints[idxX, idxY] = self.image.getpixel((idxX, idxY))
                 
     def getWeightsOfPoints(self):
         return self.occupiedPoints
