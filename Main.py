@@ -1,3 +1,6 @@
+import sys
+sys.path.append("View")
+
 from ImageProcessing import ImageProcessing
 
 class Search:
