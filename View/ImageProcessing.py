@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw
 import operator
+import numpy
 
 class ImageProcessing():
 
@@ -15,6 +16,7 @@ class ImageProcessing():
 
     def getSize(self,):
         self.dimension = self.image.size
+        print self.dimension
 
     def loadImage(self):
         self.image= Image.open('bmp.bmp') 
@@ -44,7 +46,10 @@ class ImageProcessing():
         self.image = self.image.convert('RGB')
 
     def createOccupiedPoints(self):
-        print "GetKurwa"
-
+        self.occupiedPoints = numpy.zeros((self.dimension[0], self.dimension[1]))
+        
+    def getOccupiedPoints(self):
+        return self.occupiedPoints
+    
     def createWeightsOfPoints(self):
         print "WeightsOfPoints"
