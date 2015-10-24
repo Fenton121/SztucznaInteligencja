@@ -3,23 +3,18 @@ import operator
 
 class ImageProcessing():
 
-    def __init__(self):
-        self.dimension      = (0, 0)
-	self.occupiedPoints = 0
-	self.image          = 0
-
     def processImage(self):
         self.loadImage()
-	self.getSize()
+        self.getSize()
         self.createOccupiedPoints()
         self.createWeightsOfPoints()
 
-	self.convertToRGB()
-	self.drawPaths()
+        self.convertToRGB()
+        self.drawPaths()
         self.showImage()
 
     def getSize(self,):
-	self.dimension = self.image.size
+        self.dimension = self.image.size
 
     def loadImage(self):
         self.image= Image.open('bmp.bmp') 
