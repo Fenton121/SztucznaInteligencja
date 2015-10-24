@@ -7,7 +7,7 @@ from PathFinder import PathFinder
 
 if __name__ == "__main__":
     pathFinder = PathFinder();
-    pathFinder.searchBestPath()
+    pathFinder.bestSearch()
 
     
 
