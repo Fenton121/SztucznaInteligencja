@@ -52,4 +52,10 @@ class ImageProcessing():
         return self.occupiedPoints
     
     def createWeightsOfPoints(self):
-        print "WeightsOfPoints"
+        self.weightsOfPoints = numpy.zeros((self.dimension[0], self.dimension[1]))
+        for idxX in range(self.dimension[0]):
+            for idxY in range(self.dimension[1]):
+                self.weightsOfPoints[idxX, idxY] = self.image.getpixel(idxX, idxY)
+                
+    def getWeightsOfPoints(self):
+        return self.occupiedPoints
