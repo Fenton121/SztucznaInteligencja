@@ -28,15 +28,17 @@ class ImageProcessing():
                   listOfPaths):
         listOfPoints = listOfPaths[0].getListOfPoints()
         
-        draw = ImageDraw.Draw(self.image)
+        
         numOfPoints = len(listOfPoints)
         
-        draw.line(( self.dimension[0] -1, self.dimension[1]-1, self.dimension[0] - 1, self.dimension[1] - 1), fill=(0, 233, 0))
-        
+        draw = ImageDraw.Draw(self.image)
+        #draw.line(( self.dimension[0] -1, self.dimension[1]-1, self.dimension[0] - 1, self.dimension[1] - 1), fill=(0, 233, 0))
+        draw.line(( 110, 100, 110, 110), fill=(0, 233, 0))
+        #for 
         for pointIdx in range(1, numOfPoints):
             firstPoint = listOfPoints[pointIdx - 1]
             secondPoint = listOfPoints[pointIdx]
-            draw.line(( firstPoint[0],firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
+            draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
 
     def showImage(self):
         resizeX = operator.div(1366, self.dimension[0])

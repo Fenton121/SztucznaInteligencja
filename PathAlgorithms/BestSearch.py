@@ -16,28 +16,56 @@ class BestSearch():
                         listOfPaths):
         numOfPaths = len(listOfPaths)
         
-        for pathsIdx in range(1):
-        #for pathsIdx in range(numOfPaths):
+        #for pathsIdx in range(1):
+        for pathsIdx in range(numOfPaths):
             print "path nr = " + str(pathsIdx)
             listOfPaths[pathsIdx].printPath()
+            
+    def setOccupiedPoints(self,
+                          listOfPoints):
         
+        numOfPoints = len(listOfPoints)
+        for pointIdx in range(numOfPoints):
+            self.occupiedPoints[listOfPoints[pointIdx][0]][listOfPoints[pointIdx][1]] = 1
+            
     def search(self):
         startPoint = (0, 0)
         stopPoint =  (self.dimension[0] - 1, self.dimension[1] - 1)
+        #stopPoint = (110 ,100)
         
         listOfPaths = [Path(startPoint)]
+        self.occupiedPoints[startPoint[0]][startPoint[1]] = 1
+        
         index = 0
         #self.printListOfPath(listOfPaths)
-        while ( ((listOfPaths[0].getCoordinate()) != stopPoint) ):
-            print "coordinate = " + str(listOfPaths[0].getCoordinate())
-            index = index + 1
+        while ( ((listOfPaths[0].getCoordinate()) != stopPoint) & ( index < 1000)):
+
             actualPoint = listOfPaths[0].getCoordinate()
+            
             self.occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
             
+            #print "idx = " + str(index) + ", coordinate = " + str(listOfPaths[0].getCoordinate())
+            #rint self.occupiedPoints[0][:10]
+            #print self.occupiedPoints[1][:10]
+            #print self.occupiedPoints[2][:10]
+            #print self.occupiedPoints[3][:10]
+            #print self.occupiedPoints[4][:10]
+            #print self.occupiedPoints[5][:10]
+            #print self.occupiedPoints[6][:10]
+            #print self.occupiedPoints[7][:10]
+            #print self.occupiedPoints[8][:10]
+            #print self.occupiedPoints[9][:10]
             listOfNewPoints = self.getNewPoints(listOfPaths)
+            
+            #if( (index == 5) | (index == 6)):
+            #print "index = " + str(index) + ", listOfNewPoints = " + str(listOfNewPoints)
+            #self.printListOfPath(listOfPaths)
+                
             if (len(listOfNewPoints) == 0):
                 listOfPaths.pop(0)
             else:
+                self.setOccupiedPoints(listOfNewPoints)
+                                  
                 isTarget = self.addPaths(listOfPaths,
                                          listOfNewPoints,
                                          stopPoint)
@@ -45,7 +73,7 @@ class BestSearch():
                     return listOfPaths
                 else:
                     self.sortListOfPaths(listOfPaths)
-                    
+            index = index + 1
             #self.printListOfPath(listOfPaths)
         
         return listOfPaths
