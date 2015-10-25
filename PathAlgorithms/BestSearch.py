@@ -1,19 +1,121 @@
 from Path import Path
 from Common import *
+import copy
 
 class BestSearch():
-    def search(self,
-               occupiedPoints,
-               weightsOfPoints):
-        startPoint = (0, 0)
-        stopPoint =  (10, 10)
-        listOfPath = [Path(startPoint)]
-
-        while ( (listOfPath[0].getCoordinate()) != stopPoint):
-            actualPoint = listOfPath[0].getCoordinate()
-            occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
-            self.addPaths(listOfPath, occupiedPoints)
+    
+    def __init__(self,
+                 occupiedPoints,
+                 weightsOfPoints,
+                 dimension):
+        self.occupiedPoints  = occupiedPoints
+        self.weightsOfPoints = weightsOfPoints
+        self.dimension       = dimension
         
-    def addPaths(self, listOfPath, occupiedPoints):
-        print "hah" + str(numOfPossbilePoints)
-        actualPoint = listOfPath[0].getCoordinate()
+    def printListOfPath(self,
+                        listOfPaths):
+        numOfPaths = len(listOfPaths)
+        
+        for pathsIdx in range(1):
+        #for pathsIdx in range(numOfPaths):
+            print "path nr = " + str(pathsIdx)
+            listOfPaths[pathsIdx].printPath()
+        
+    def search(self):
+        startPoint = (0, 0)
+        stopPoint =  (self.dimension[0] - 1, self.dimension[1] - 1)
+        
+        listOfPaths = [Path(startPoint)]
+        index = 0
+        #self.printListOfPath(listOfPaths)
+        while ( ((listOfPaths[0].getCoordinate()) != stopPoint) ):
+            print "coordinate = " + str(listOfPaths[0].getCoordinate())
+            index = index + 1
+            actualPoint = listOfPaths[0].getCoordinate()
+            self.occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
+            
+            listOfNewPoints = self.getNewPoints(listOfPaths)
+            if (len(listOfNewPoints) == 0):
+                listOfPaths.pop(0)
+            else:
+                isTarget = self.addPaths(listOfPaths,
+                                         listOfNewPoints,
+                                         stopPoint)
+                if(isTarget):
+                    return listOfPaths
+                else:
+                    self.sortListOfPaths(listOfPaths)
+                    
+            #self.printListOfPath(listOfPaths)
+        
+        return listOfPaths
+            
+    def addPaths(self,
+                 listOfPaths,
+                 listOfNewPoints,
+                 stopPoint):
+        numOfNewPoints = len(listOfNewPoints)
+        actualPoint = listOfPaths[0].getCoordinate()
+        oldFirstPath = listOfPaths.pop(0)
+        
+        for pointIdx in range(numOfNewPoints):
+            
+            newPath = copy.deepcopy(oldFirstPath)  
+            newPath.addNewPoint(listOfNewPoints[pointIdx],
+                                self.weightsOfPoints[listOfNewPoints[pointIdx][0]]
+                                                    [listOfNewPoints[pointIdx][1]])
+
+            if (listOfNewPoints[pointIdx] == stopPoint):
+                print "listOfNewPoints[pointIdx]" + str(listOfNewPoints[pointIdx])
+                listOfPaths.insert(0, newPath)
+                self.printListOfPath(listOfPaths)
+                return True
+            else:
+                listOfPaths.append(newPath)
+        return False
+    
+    def isFreePoint(self,
+                    adjacentPoint):
+        
+        if (( adjacentPoint[0] >= 0 ) & \
+            ( adjacentPoint[1] >= 0 ) & \
+            ( adjacentPoint[0] < self.dimension[0]) & \
+            ( adjacentPoint[1] < self.dimension[1])):
+            if( self.occupiedPoints[adjacentPoint[0]][adjacentPoint[1]] == 0):
+                return True
+            else:
+                return False
+        else:
+            return False
+               
+               
+        
+    def getNewPoints(self, 
+                     listOfPaths):
+        listOfNewPoints = []
+
+        actualPoint = listOfPaths[0].getCoordinate()
+        numOfAdjacentPoints = len(adjacentPoints)
+        
+        for idxPoint in range(numOfAdjacentPoints):
+            adjacentPoint = ( actualPoint[0] + adjacentPoints[idxPoint][0], 
+                              actualPoint[1] + adjacentPoints[idxPoint][1])
+            if(self.isFreePoint(adjacentPoint)):
+                listOfNewPoints.append(adjacentPoint)
+                
+        return listOfNewPoints
+    
+    def sortListOfPaths(self,
+                        listOfPaths):
+        sort = True
+        numOfPaths = len(listOfPaths)
+        while(sort == True):
+            sort = False
+            for pathIdx in range(1, numOfPaths):
+                firstPath  = listOfPaths[pathIdx-1].getWeight()
+                secondPath = listOfPaths[pathIdx].getWeight()
+                if(firstPath > secondPath):
+                    sort = True
+                    tempPath = listOfPaths[pathIdx]
+                    listOfPaths[pathIdx]   = listOfPaths[pathIdx-1]
+                    listOfPaths[pathIdx-1] = tempPath

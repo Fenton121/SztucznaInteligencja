@@ -11,9 +11,10 @@ class ImageProcessing():
         self.createOccupiedPoints()
         self.createWeightsOfPoints()
 
-    def convertAndDisplay(self):
+    def convertAndDisplay(self,
+                          listOfPaths):
         self.convertToRGB()
-        self.drawPaths()
+        self.drawPaths(listOfPaths)
         self.showImage()
 
     def getSize(self,):
@@ -21,13 +22,21 @@ class ImageProcessing():
         print self.dimension
 
     def loadImage(self):
-        print sys.path
-        self.image= Image.open('Images/bmp.bmp') 
+        self.image= Image.open('Images/labirynt.bmp') 
 
-    def drawPaths(self):
+    def drawPaths(self,
+                  listOfPaths):
+        listOfPoints = listOfPaths[0].getListOfPoints()
+        
         draw = ImageDraw.Draw(self.image)
-        draw.line((0, 0) + self.dimension, fill=(233, 0, 0))
-        draw.line((0, self.dimension[1], self.dimension[0], 0), fill=(233, 0, 0))
+        numOfPoints = len(listOfPoints)
+        
+        draw.line(( self.dimension[0] -1, self.dimension[1]-1, self.dimension[0] - 1, self.dimension[1] - 1), fill=(0, 233, 0))
+        
+        for pointIdx in range(1, numOfPoints):
+            firstPoint = listOfPoints[pointIdx - 1]
+            secondPoint = listOfPoints[pointIdx]
+            draw.line(( firstPoint[0],firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
 
     def showImage(self):
         resizeX = operator.div(1366, self.dimension[0])
@@ -63,7 +72,10 @@ class ImageProcessing():
         for idxX in range(self.dimension[0]):
             self.weightsOfPoints.append([])
             for idxY in range(self.dimension[1]):
-                self.weightsOfPoints[idxX].append(self.image.getpixel((idxX, idxY)))
+                self.weightsOfPoints[idxX].append(256 - self.image.getpixel((idxX, idxY)))
                 
     def getWeightsOfPoints(self):
-        return self.occupiedPoints
+        return self.weightsOfPoints
+    
+    def getDimension(self):
+        return self.dimension

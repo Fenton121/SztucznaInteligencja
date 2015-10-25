@@ -1,17 +1,27 @@
 
 class Path():
     def __init__(self, startPoint):
-        self.listOfPoint = [startPoint]
+        self.listOfPoints = [startPoint]
+        self.weight = 0
+        #self.index = 0
         
-        self.index = 0
+    def printPath(self):
+        numOfPoints = len(self.listOfPoints)
+        
+        for pointIdx in range(numOfPoints):
+            print str(pointIdx) + ". " + str(self.listOfPoints[pointIdx])
     def getCoordinate(self):
+        return self.listOfPoints[-1]
         
-        self.index = self.index + 1
-        if (self.index <= 10):
-            return self.listOfPoint[-1]
-        else:
-        #actualPoint = self.listOfPoint[-1]
-        #self.listOfPoint[-1] = (actualPoint[0] + 1, actualPoint[1] + 1)
-            return (10, 10)
-        
+    def addNewPoint(self,
+                    newPoint,
+                    weightOfPoint):
+        self.listOfPoints.append(newPoint)
+        self.weight = self.weight + weightOfPoint
+    
+    def getWeight(self):
+        return self.weight
+    
+    def getListOfPoints(self):
+        return self.listOfPoints
             

@@ -3,13 +3,14 @@ from BestSearch import BestSearch
 
 class PathFinder():
     def bestSearch(self):
-        bestSearch = BestSearch()
-        
         self.loadImage()
         
-        bestSearch.search(self.imageProcessing.getOccupiedPoints(),
-                          self.imageProcessing.getWeightsOfPoints())
-        self.dispaly()
+        bestSearch = BestSearch(self.imageProcessing.getOccupiedPoints(),
+                                self.imageProcessing.getWeightsOfPoints(),
+                                self.imageProcessing.getDimension())
+        
+        listOfPaths = bestSearch.search()
+        self.dispaly(listOfPaths)
         
     def loadImage(self):
         self.imageProcessing = ImageProcessing()
@@ -17,5 +18,6 @@ class PathFinder():
         
 
 
-    def dispaly(self):
-        self.imageProcessing.convertAndDisplay()
+    def dispaly(self,
+                listOfPaths):
+        self.imageProcessing.convertAndDisplay(listOfPaths)
