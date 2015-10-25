@@ -38,13 +38,13 @@ class BestSearch():
         
         index = 0
         #self.printListOfPath(listOfPaths)
-        while ( ((listOfPaths[0].getCoordinate()) != stopPoint) & ( index < 1000)):
+        while ( ((listOfPaths[0].getCoordinate()) != stopPoint)):
 
             actualPoint = listOfPaths[0].getCoordinate()
             
             self.occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
             
-            #print "idx = " + str(index) + ", coordinate = " + str(listOfPaths[0].getCoordinate())
+            print "idx = " + str(index) + ", coordinate = " + str(listOfPaths[0].getCoordinate())
             #rint self.occupiedPoints[0][:10]
             #print self.occupiedPoints[1][:10]
             #print self.occupiedPoints[2][:10]
