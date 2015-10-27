@@ -9,8 +9,8 @@ class PathFinder():
                                 self.imageProcessing.getWeightsOfPoints(),
                                 self.imageProcessing.getDimension())
         
-        listOfPaths = bestSearch.search()
-        self.dispaly(listOfPaths)
+        targetCoord, apexes = bestSearch.search()
+        self.dispaly(targetCoord, apexes)
         
     def loadImage(self):
         self.imageProcessing = ImageProcessing()
@@ -19,5 +19,7 @@ class PathFinder():
 
 
     def dispaly(self,
-                listOfPaths):
-        self.imageProcessing.convertAndDisplay(listOfPaths)
+                targetCoord,
+                apexes):
+        self.imageProcessing.convertAndDisplay(targetCoord,
+                                               apexes)

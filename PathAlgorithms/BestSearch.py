@@ -1,4 +1,4 @@
-from Path import Path
+from Apex import Apex
 from Common import *
 import copy
 
@@ -11,14 +11,11 @@ class BestSearch():
         self.occupiedPoints  = occupiedPoints
         self.weightsOfPoints = weightsOfPoints
         self.dimension       = dimension
-        
-    def printListOfPath(self,
-                        listOfPaths):
-        numOfPaths = len(listOfPaths)
-        
-        for pathsIdx in range(numOfPaths):
-            print "path nr = " + str(pathsIdx)
-            listOfPaths[pathsIdx].printPath()
+        self.apexes = []
+        for idxX in range(self.dimension[0]):
+            self.apexes.append([])
+            for idxY in range(self.dimension[1]):
+                self.apexes[idxX].append(0)
             
     def setOccupiedPoints(self,
                           listOfPoints):
@@ -28,69 +25,76 @@ class BestSearch():
             self.occupiedPoints[listOfPoints[pointIdx][0]][listOfPoints[pointIdx][1]] = 1
             
     def search(self):
-        startPoint = (0, 0)
-        #stopPoint =  (self.dimension[0] - 1, self.dimension[1] - 1)
-        stopPoint = (110, 111)
+        startPointCoord = (0, 0)
+        #stopPointCoord =  (self.dimension[0] - 1, self.dimension[1] - 1)
+        stopPointCoord = (510, 510)
         
-        listOfPaths = [Path(startPoint)]
-        self.occupiedPoints[startPoint[0]][startPoint[1]] = 1
+        startApex = Apex(startPointCoord, (-1, -1))
+        listOfActualApexes = [copy.deepcopy(startApex)]
+        self.occupiedPoints[startPointCoord[0]][startPointCoord[1]] = 1
+        self.apexes[startPointCoord[0]][startPointCoord[1]] = startApex
+        
+        #return (-1, -1), self.apexes
         index = 0
-        while ( ((listOfPaths[0].getCoordinate()) != stopPoint)):
-
-            actualPoint = listOfPaths[0].getCoordinate()
+        while ( True ):
+            print "index = " + str(index)
+            index = index + 1
+            actualPointCoord = listOfActualApexes[0].getCoordinate()
             
-            self.occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
+            self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 1
             
-            listOfNewPoints = self.getNewPoints(listOfPaths)
+            listOfNewPoints = self.getNewPoints(actualPointCoord)
             
             if (len(listOfNewPoints) == 0):
-                listOfPaths.pop(0)
+                listOfActualApexes.pop(0)
             else:
                 self.setOccupiedPoints(listOfNewPoints)
                                   
-                isTarget = self.addPaths(listOfPaths,
-                                         listOfNewPoints,
-                                         stopPoint)
+                isTarget = self.addApexes(listOfActualApexes,
+                                          listOfNewPoints,
+                                          stopPointCoord)
                 if(isTarget):
-                    return listOfPaths
-        
-        return listOfPaths
+                    targeCoord = listOfActualApexes[0].getCoordinate()
+                    return targeCoord, self.apexes
             
     
     def findIdxInList(self,
                       weightOfPath,
-                      listOfPaths):
-        idx = 0
-        numOfPath = len(listOfPaths)
-        for pathIdx in range(numOfPath):
-            if(weightOfPath < listOfPaths[pathIdx].getWeight()):
-                return pathIdx
-        return numOfPath - 1
+                      listOfActualApexes):
+        
+        numOfApexes = len(listOfActualApexes)
+        for apexIdx in range(numOfApexes):
+            if(weightOfPath < listOfActualApexes[apexIdx].getWeight()):
+                return apexIdx
+        return numOfApexes
 
-    def addPaths(self,
-                 listOfPaths,
-                 listOfNewPoints,
-                 stopPoint):
+    def addApexes(self,
+                  listOfActualApexes,
+                  listOfNewPoints,
+                  stopPoint):
         
-        numOfNewPoints = len(listOfNewPoints)
-        actualPoint = listOfPaths[0].getCoordinate()
-        oldFirstPath = listOfPaths.pop(0)
+        numOfNewApexes = len(listOfNewPoints)
+        actualPoint    = listOfActualApexes[0].getCoordinate()
+        oldFirstApex   = listOfActualApexes.pop(0)
         
-        for pointIdx in range(numOfNewPoints):
+        for pointIdx in range(numOfNewApexes):
             
-            newPath = copy.deepcopy(oldFirstPath)  
-            newPath.addNewPoint(listOfNewPoints[pointIdx],
-                                self.weightsOfPoints[listOfNewPoints[pointIdx][0]]
-                                                    [listOfNewPoints[pointIdx][1]])
+            newApex = copy.deepcopy(oldFirstApex)  
+            xApexCoord = listOfNewPoints[pointIdx][0]
+            yApexCoord = listOfNewPoints[pointIdx][1]
+            newApex.changeApex(listOfNewPoints[pointIdx],
+                               self.weightsOfPoints[xApexCoord][yApexCoord])
+            
+            self.apexes[xApexCoord][yApexCoord] = newApex
             if (listOfNewPoints[pointIdx] == stopPoint):
-                listOfPaths.insert(0, newPath)
+                listOfActualApexes.insert(0, newApex)
                 return True
             else:
-                weightOfPath = newPath.getWeight()
+                weightOfPath = newApex.getWeight()
             
-                idxOfPath = self.findIdxInList(weightOfPath,
-                                               listOfPaths)
-                listOfPaths.insert(idxOfPath, newPath)
+                idxOfApex = self.findIdxInList(weightOfPath,
+                                               listOfActualApexes)
+                listOfActualApexes.insert(idxOfApex, newApex)
         return False
     
     def isFreePoint(self,
@@ -110,15 +114,14 @@ class BestSearch():
                
         
     def getNewPoints(self, 
-                     listOfPaths):
+                     actualPointCoord):
         listOfNewPoints = []
 
-        actualPoint = listOfPaths[0].getCoordinate()
         numOfAdjacentPoints = len(adjacentPoints)
         
         for idxPoint in range(numOfAdjacentPoints):
-            adjacentPoint = ( actualPoint[0] + adjacentPoints[idxPoint][0], 
-                              actualPoint[1] + adjacentPoints[idxPoint][1])
+            adjacentPoint = ( actualPointCoord[0] + adjacentPoints[idxPoint][0], 
+                              actualPointCoord[1] + adjacentPoints[idxPoint][1])
             if(self.isFreePoint(adjacentPoint)):
                 listOfNewPoints.append(adjacentPoint)
                 

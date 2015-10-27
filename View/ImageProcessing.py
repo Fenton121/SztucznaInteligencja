@@ -12,9 +12,10 @@ class ImageProcessing():
         self.createWeightsOfPoints()
         
     def convertAndDisplay(self,
-                          listOfPaths):
+                          targetCoord,
+                          apexes):
         self.convertToRGB()
-        self.drawPaths(listOfPaths)
+        self.drawPaths(targetCoord, apexes)
         self.showImage()
 
     def getSize(self,):
@@ -25,20 +26,30 @@ class ImageProcessing():
         self.image= Image.open('Images/labirynt2.bmp') 
 
     def drawPaths(self,
-                  listOfPaths):
-        listOfPoints = listOfPaths[0].getListOfPoints()
-        
-        
-        numOfPoints = len(listOfPoints)
-        
+                  targetCoord,
+                  apexes):
+        print "targetCoord" + str(targetCoord)
+
         draw = ImageDraw.Draw(self.image)
-        #draw.line(( self.dimension[0] -1, self.dimension[1]-1, self.dimension[0] - 1, self.dimension[1] - 1), fill=(0, 233, 0))
-        #draw.line(( 110, 110, 130, 120), fill=(0, 233, 0))
+        #draw.line(( 510, 510, 520, 510), fill=(0, 233, 0))
+        #return 
+    
+        xTargetCoord = targetCoord[0]
+        yTargetCoord = targetCoord[1]
         
-        for pointIdx in range(1, numOfPoints):
-            firstPoint = listOfPoints[pointIdx - 1]
-            secondPoint = listOfPoints[pointIdx]
+        apex = apexes[xTargetCoord][yTargetCoord]
+        
+        
+        index = 0
+        while ( apex.getPreviousPoint() != (-1, -1) ):
+
+            firstPoint = apex.getCoordinate()
+            secondPoint = apex.getPreviousPoint()
+            print "firstPoint" + str(firstPoint) + "secondPoint" + str(secondPoint) + str(secondPoint != (-1, -1))
+            
             draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
+            apex = apexes[secondPoint[0]][secondPoint[1]]
+            index = index + 1
 
     def showImage(self):
         resizeX = operator.div(1366, self.dimension[0])
