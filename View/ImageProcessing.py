@@ -28,7 +28,6 @@ class ImageProcessing():
     def drawPaths(self,
                   targetCoord,
                   apexes):
-        print "targetCoord" + str(targetCoord)
 
         draw = ImageDraw.Draw(self.image)
         #draw.line(( 510, 510, 520, 510), fill=(0, 233, 0))
@@ -45,7 +44,6 @@ class ImageProcessing():
 
             firstPoint = apex.getCoordinate()
             secondPoint = apex.getPreviousPoint()
-            print "firstPoint" + str(firstPoint) + "secondPoint" + str(secondPoint) + str(secondPoint != (-1, -1))
             
             draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
             apex = apexes[secondPoint[0]][secondPoint[1]]

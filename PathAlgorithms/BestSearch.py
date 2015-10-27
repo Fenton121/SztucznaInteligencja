@@ -1,6 +1,7 @@
 from Apex import Apex
 from Common import *
 import copy
+#import timeit
 
 class BestSearch():
     
@@ -37,22 +38,37 @@ class BestSearch():
         self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 0
         self.apexes[actualPointCoord[0]][actualPointCoord[1]] = startApex
         
+        newPointsTime = 0;
+        apexTime = 0;
         while ( True ):
             
             actualPointCoord = listOfActualApexes[0].getCoordinate()
             self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 0
             
+            #startNewPoints = timeit.default_timer()
+            
             listOfNewPoints = self.getNewPoints(actualPointCoord)
             
+            #stopNewPoints = timeit.default_timer()
+            
+            #newPointsTime = newPointsTime + (stopNewPoints - startNewPoints)
             #if (len(listOfNewPoints) == 0):
                 #listOfActualApexes.pop(0)
             #else:
             self.setOccupiedPoints(listOfNewPoints)
-                                  
+             
+            #startApx = timeit.default_timer()
+            
             isTarget = self.addApexes(listOfActualApexes,
                                       listOfNewPoints,
                                       stopPointCoord)
+            #stopApx = timeit.default_timer()
+            
+            #apexTime = apexTime + (stopApx - startApx)
+            
             if(isTarget):
+                #print "apexTime"  + str(apexTime)
+                #print "newPointsTime" + str(newPointsTime)
                 targeCoord = listOfActualApexes[0].getCoordinate()
                 return targeCoord, self.apexes
             
@@ -78,7 +94,9 @@ class BestSearch():
         
         for pointIdx in range(numOfNewApexes):
             
-            newApex = copy.deepcopy(oldFirstApex)  
+            newApex = copy.copy(oldFirstApex)  
+            
+            
             xApexCoord = listOfNewPoints[pointIdx][0]
             yApexCoord = listOfNewPoints[pointIdx][1]
             newApex.changeApex(listOfNewPoints[pointIdx],
@@ -94,6 +112,7 @@ class BestSearch():
                 idxOfApex = self.findIdxInList(weightOfPath,
                                                listOfActualApexes)
                 listOfActualApexes.insert(idxOfApex, newApex)
+                
         return False
     
     def isFreePoint(self,

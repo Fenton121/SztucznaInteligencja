@@ -1,13 +1,11 @@
 from ImageProcessing import ImageProcessing
 from BestSearch import BestSearch
 import timeit
-from time import time
 
 class PathFinder():
     def bestSearch(self):
         self.loadImage()
         
-        t0 = time()
 
         start = timeit.default_timer()
         
