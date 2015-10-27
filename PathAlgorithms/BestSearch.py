@@ -16,7 +16,6 @@ class BestSearch():
                         listOfPaths):
         numOfPaths = len(listOfPaths)
         
-        #for pathsIdx in range(1):
         for pathsIdx in range(numOfPaths):
             print "path nr = " + str(pathsIdx)
             listOfPaths[pathsIdx].printPath()
@@ -30,37 +29,20 @@ class BestSearch():
             
     def search(self):
         startPoint = (0, 0)
-        stopPoint =  (self.dimension[0] - 1, self.dimension[1] - 1)
-        #stopPoint = (110 ,100)
+        #stopPoint =  (self.dimension[0] - 1, self.dimension[1] - 1)
+        stopPoint = (110, 110)
         
         listOfPaths = [Path(startPoint)]
         self.occupiedPoints[startPoint[0]][startPoint[1]] = 1
-        
         index = 0
-        #self.printListOfPath(listOfPaths)
         while ( ((listOfPaths[0].getCoordinate()) != stopPoint)):
 
             actualPoint = listOfPaths[0].getCoordinate()
             
             self.occupiedPoints[actualPoint[0]][actualPoint[1]] = 1
             
-            print "idx = " + str(index) + ", coordinate = " + str(listOfPaths[0].getCoordinate())
-            #rint self.occupiedPoints[0][:10]
-            #print self.occupiedPoints[1][:10]
-            #print self.occupiedPoints[2][:10]
-            #print self.occupiedPoints[3][:10]
-            #print self.occupiedPoints[4][:10]
-            #print self.occupiedPoints[5][:10]
-            #print self.occupiedPoints[6][:10]
-            #print self.occupiedPoints[7][:10]
-            #print self.occupiedPoints[8][:10]
-            #print self.occupiedPoints[9][:10]
             listOfNewPoints = self.getNewPoints(listOfPaths)
             
-            #if( (index == 5) | (index == 6)):
-            #print "index = " + str(index) + ", listOfNewPoints = " + str(listOfNewPoints)
-            #self.printListOfPath(listOfPaths)
-                
             if (len(listOfNewPoints) == 0):
                 listOfPaths.pop(0)
             else:
@@ -71,17 +53,25 @@ class BestSearch():
                                          stopPoint)
                 if(isTarget):
                     return listOfPaths
-                else:
-                    self.sortListOfPaths(listOfPaths)
-            index = index + 1
-            #self.printListOfPath(listOfPaths)
         
         return listOfPaths
             
+    
+    def findIdxInList(self,
+                      weightOfPath,
+                      listOfPaths):
+        idx = 0
+        numOfPath = len(listOfPaths)
+        for pathIdx in range(numOfPath):
+            if(weightOfPath < listOfPaths[pathIdx].getWeight()):
+                return pathIdx
+        return numOfPath - 1
+
     def addPaths(self,
                  listOfPaths,
                  listOfNewPoints,
                  stopPoint):
+        
         numOfNewPoints = len(listOfNewPoints)
         actualPoint = listOfPaths[0].getCoordinate()
         oldFirstPath = listOfPaths.pop(0)
@@ -92,14 +82,15 @@ class BestSearch():
             newPath.addNewPoint(listOfNewPoints[pointIdx],
                                 self.weightsOfPoints[listOfNewPoints[pointIdx][0]]
                                                     [listOfNewPoints[pointIdx][1]])
-
             if (listOfNewPoints[pointIdx] == stopPoint):
-                print "listOfNewPoints[pointIdx]" + str(listOfNewPoints[pointIdx])
                 listOfPaths.insert(0, newPath)
-                self.printListOfPath(listOfPaths)
                 return True
             else:
-                listOfPaths.append(newPath)
+                weightOfPath = newPath.getWeight()
+            
+                idxOfPath = self.findIdxInList(weightOfPath,
+                                               listOfPaths)
+                listOfPaths.insert(idxOfPath, newPath)
         return False
     
     def isFreePoint(self,
