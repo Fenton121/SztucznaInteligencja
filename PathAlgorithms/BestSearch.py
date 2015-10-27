@@ -65,7 +65,7 @@ class BestSearch():
         for pathIdx in range(numOfPath):
             if(weightOfPath < listOfPaths[pathIdx].getWeight()):
                 return pathIdx
-        return numOfPath - 1
+        return numOfPath
 
     def addPaths(self,
                  listOfPaths,

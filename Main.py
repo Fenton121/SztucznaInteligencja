@@ -1,8 +1,8 @@
 import sys
-sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/View/")
-sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/PathAlgorithms/")
-sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/Images/")
-sys.path.append("/home/fenton/workspace/SztucznaIngeligencja/SztucznaInteligencja/Common/")
+sys.path.append("View")
+sys.path.append("PathAlgorithms")
+sys.path.append("Images")
+sys.path.append("Common")
 
 from PathFinder import PathFinder
 
