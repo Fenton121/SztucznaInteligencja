@@ -75,7 +75,7 @@ class ImageProcessing():
         for idxX in range(self.dimension[0]):
             self.occupiedPoints.append([])
             for idxY in range(self.dimension[1]):
-                self.occupiedPoints[idxX].append(0)
+                self.occupiedPoints[idxX].append(1)
         
     def getOccupiedPoints(self):
         return self.occupiedPoints
@@ -87,7 +87,7 @@ class ImageProcessing():
             for idxY in range(self.dimension[1]):
                 self.weightsOfPoints[idxX].append(256 - self.image.getpixel((idxX, idxY)))
                 if(256 - self.image.getpixel((idxX, idxY)) > 200):
-                    self.occupiedPoints[idxX][idxY] = 1
+                    self.occupiedPoints[idxX][idxY] = 0
                 
     def getWeightsOfPoints(self):
         return self.weightsOfPoints
