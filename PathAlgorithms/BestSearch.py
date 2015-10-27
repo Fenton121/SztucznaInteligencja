@@ -34,11 +34,8 @@ class BestSearch():
         self.occupiedPoints[startPointCoord[0]][startPointCoord[1]] = 1
         self.apexes[startPointCoord[0]][startPointCoord[1]] = startApex
         
-        #return (-1, -1), self.apexes
-        index = 0
         while ( True ):
-            print "index = " + str(index)
-            index = index + 1
+            
             actualPointCoord = listOfActualApexes[0].getCoordinate()
             
             self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 1
@@ -110,9 +107,7 @@ class BestSearch():
                 return False
         else:
             return False
-               
-               
-        
+
     def getNewPoints(self, 
                      actualPointCoord):
         listOfNewPoints = []
@@ -127,17 +122,3 @@ class BestSearch():
                 
         return listOfNewPoints
     
-    def sortListOfPaths(self,
-                        listOfPaths):
-        sort = True
-        numOfPaths = len(listOfPaths)
-        while(sort == True):
-            sort = False
-            for pathIdx in range(1, numOfPaths):
-                firstPath  = listOfPaths[pathIdx-1].getWeight()
-                secondPath = listOfPaths[pathIdx].getWeight()
-                if(firstPath > secondPath):
-                    sort = True
-                    tempPath = listOfPaths[pathIdx]
-                    listOfPaths[pathIdx]   = listOfPaths[pathIdx-1]
-                    listOfPaths[pathIdx-1] = tempPath
