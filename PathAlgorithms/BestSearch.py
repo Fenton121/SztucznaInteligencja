@@ -30,7 +30,7 @@ class BestSearch():
     def search(self):
         startPoint = (0, 0)
         #stopPoint =  (self.dimension[0] - 1, self.dimension[1] - 1)
-        stopPoint = (110, 110)
+        stopPoint = (110, 111)
         
         listOfPaths = [Path(startPoint)]
         self.occupiedPoints[startPoint[0]][startPoint[1]] = 1
