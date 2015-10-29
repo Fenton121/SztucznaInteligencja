@@ -1,7 +1,7 @@
 from Apex import Apex
 from Common import *
 import copy
-#import timeit
+import timeit
 
 class BestSearch():
     
@@ -29,57 +29,59 @@ class BestSearch():
             
     def search(self):
         startPointCoord = (0, 0)
-        #stopPointCoord =  (self.dimension[0] - 1, self.dimension[1] - 1)
-        stopPointCoord = (510, 510)
+        stopPointCoord = (455, 290)
         
-        actualPointCoord = startPointCoord
-        startApex = Apex(actualPointCoord, (-1, -1))
-        listOfActualApexes = [copy.deepcopy(startApex)]
-        self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 0
-        self.apexes[actualPointCoord[0]][actualPointCoord[1]] = startApex
+        startApex = [startPointCoord, (-1, -1), 0]
         
-        newPointsTime = 0;
-        apexTime = 0;
-        while ( True ):
+        listOfActualApexes = [startApex]
+        self.occupiedPoints[startPointCoord[0]][startPointCoord[1]] = 0
+        self.apexes[startPointCoord[0]][startPointCoord[1]] = startApex
+        
+        index = 0
+        
+        addApexesTime = 0
+        copyTime = 0
+        findIdxInListTime = 0
+        
+        while ( listOfActualApexes[0][0] != stopPointCoord ):
             
-            actualPointCoord = listOfActualApexes[0].getCoordinate()
+            actualPointCoord = listOfActualApexes[0][0]
             self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 0
             
-            #startNewPoints = timeit.default_timer()
+            print "index =" + str(index) + "actualPointCoord = " + str(actualPointCoord)
+            index = index + 1
             
             listOfNewPoints = self.getNewPoints(actualPointCoord)
-            
-            #stopNewPoints = timeit.default_timer()
-            
-            #newPointsTime = newPointsTime + (stopNewPoints - startNewPoints)
-            #if (len(listOfNewPoints) == 0):
-                #listOfActualApexes.pop(0)
-            #else:
+    
             self.setOccupiedPoints(listOfNewPoints)
-             
-            #startApx = timeit.default_timer()
             
-            isTarget = self.addApexes(listOfActualApexes,
-                                      listOfNewPoints,
-                                      stopPointCoord)
-            #stopApx = timeit.default_timer()
+            startAddApexes = timeit.default_timer()
+            copyTimeTemp, findIdxInListTimeTemp = self.addApexes(listOfActualApexes,
+                                                                 listOfNewPoints,
+                                                                 stopPointCoord)
+            stopAddApexes = timeit.default_timer()
+            addApexesTime =  addApexesTime + (stopAddApexes - startAddApexes)
             
-            #apexTime = apexTime + (stopApx - startApx)
+            copyTime = copyTime + copyTimeTemp
+            findIdxInListTime = findIdxInListTime + findIdxInListTimeTemp
             
-            if(isTarget):
-                #print "apexTime"  + str(apexTime)
-                #print "newPointsTime" + str(newPointsTime)
-                targeCoord = listOfActualApexes[0].getCoordinate()
-                return targeCoord, self.apexes
+            
+            
+        #targeCoord = listOfActualApexes[0].getCoordinate()
+        print "addApexesTime = " + str(addApexesTime)
+        print "findIdxInListTime = " + str(findIdxInListTime)
+        print "copyTime = " + str(copyTime)
+        return listOfActualApexes[0][0], self.apexes
             
     
     def findIdxInList(self,
-                      weightOfPath,
+                      weightOfApex,
                       listOfActualApexes):
         
         numOfApexes = len(listOfActualApexes)
+        #print "numOfApexes" + str(numOfApexes)
         for apexIdx in range(numOfApexes):
-            if(weightOfPath < listOfActualApexes[apexIdx].getWeight()):
+            if(weightOfApex < listOfActualApexes[apexIdx][2]):
                 return apexIdx
         return numOfApexes
 
@@ -89,31 +91,43 @@ class BestSearch():
                   stopPoint):
         
         numOfNewApexes = len(listOfNewPoints)
-        actualPoint    = listOfActualApexes[0].getCoordinate()
-        oldFirstApex   = listOfActualApexes.pop(0)
+        actualPoint    = listOfActualApexes[0][0]
+        oldFirstApex        = listOfActualApexes.pop(0)
         
+        copyTime = 0
+        findIdxInListTime = 0
         for pointIdx in range(numOfNewApexes):
+            newApex = copy.copy(oldFirstApex)
+            #startCopy = timeit.default_timer()
+            #newApex = copy.copy(oldFirstApex)  
             
-            newApex = copy.copy(oldFirstApex)  
+            #stopCopy = timeit.default_timer()
             
+            #copyTime = copyTime + (stopCopy - startCopy)
             
+            startAddApexes = timeit.default_timer()
             xApexCoord = listOfNewPoints[pointIdx][0]
             yApexCoord = listOfNewPoints[pointIdx][1]
-            newApex.changeApex(listOfNewPoints[pointIdx],
-                               self.weightsOfPoints[xApexCoord][yApexCoord])
+            
+            newApex[1] = newApex[0]
+            newApex[0] = listOfNewPoints[pointIdx]
+            newApex[2] = newApex[2] + self.weightsOfPoints[xApexCoord][yApexCoord]
+            #newApex.changeApex(listOfNewPoints[pointIdx],
+                               #self.weightsOfPoints[xApexCoord][yApexCoord])
             
             self.apexes[xApexCoord][yApexCoord] = newApex
-            if (listOfNewPoints[pointIdx] == stopPoint):
-                listOfActualApexes.insert(0, newApex)
-                return True
-            else:
-                weightOfPath = newApex.getWeight()
+
             
-                idxOfApex = self.findIdxInList(weightOfPath,
-                                               listOfActualApexes)
-                listOfActualApexes.insert(idxOfApex, newApex)
+            startFindIdxInList = timeit.default_timer()
+            idxOfApex = self.findIdxInList(newApex[2],
+                                           listOfActualApexes)
+            stopFindIdxInList = timeit.default_timer()
+            
+            findIdxInListTime = findIdxInListTime + (stopFindIdxInList - startFindIdxInList)
+            
+            listOfActualApexes.insert(idxOfApex, newApex)
+        return copyTime, findIdxInListTime
                 
-        return False
     
     def isFreePoint(self,
                     adjacentPoint):

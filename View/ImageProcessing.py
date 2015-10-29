@@ -30,8 +30,7 @@ class ImageProcessing():
                   apexes):
 
         draw = ImageDraw.Draw(self.image)
-        #draw.line(( 510, 510, 520, 510), fill=(0, 233, 0))
-        #return 
+        #draw.line(( 455, 290, 470, 290), fill=(233, 0, 0))
     
         xTargetCoord = targetCoord[0]
         yTargetCoord = targetCoord[1]
@@ -40,11 +39,11 @@ class ImageProcessing():
         
         
         index = 0
-        while ( apex.getPreviousPoint() != (-1, -1) ):
+        while ( (apex[0] != (-1, -1)) & (index < 100) ):
 
-            firstPoint = apex.getCoordinate()
-            secondPoint = apex.getPreviousPoint()
-            
+            firstPoint = apex[0]
+            secondPoint = apex[1]
+            print "firstPoint = " + str(firstPoint) + "secondPoint = " + str(secondPoint)
             draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
             apex = apexes[secondPoint[0]][secondPoint[1]]
             index = index + 1
@@ -83,8 +82,9 @@ class ImageProcessing():
         for idxX in range(self.dimension[0]):
             self.weightsOfPoints.append([])
             for idxY in range(self.dimension[1]):
-                self.weightsOfPoints[idxX].append(256 - self.image.getpixel((idxX, idxY)))
-                if(256 - self.image.getpixel((idxX, idxY)) > 200):
+                weightOfPoint = self.image.getpixel((idxX, idxY))
+                self.weightsOfPoints[idxX].append(256 - weightOfPoint)
+                if(weightOfPoint < 30):
                     self.occupiedPoints[idxX][idxY] = 0
                 
     def getWeightsOfPoints(self):

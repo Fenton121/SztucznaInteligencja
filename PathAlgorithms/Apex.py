@@ -20,3 +20,7 @@ class Apex():
     
     def getCoordinate(self):
         return self.point
+    
+    def setWeight(self,
+                  weight):
+        self.weightOfPoint = weight;
