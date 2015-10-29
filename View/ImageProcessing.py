@@ -30,7 +30,8 @@ class ImageProcessing():
                   apexes):
 
         draw = ImageDraw.Draw(self.image)
-        #draw.line(( 455, 290, 470, 290), fill=(233, 0, 0))
+
+        #draw.line(( 643, 322, 655, 322), fill=(233, 0, 0))
     
         xTargetCoord = targetCoord[0]
         yTargetCoord = targetCoord[1]
@@ -38,15 +39,11 @@ class ImageProcessing():
         apex = apexes[xTargetCoord][yTargetCoord]
         
         
-        index = 0
         while ( (apex[1] != (-1, -1)) ):
-
             firstPoint = apex[0]
             secondPoint = apex[1]
-            print "firstPoint = " + str(firstPoint) + "secondPoint = " + str(secondPoint)
             draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
             apex = apexes[secondPoint[0]][secondPoint[1]]
-            index = index + 1
 
     def showImage(self):
         resizeX = operator.div(1366, self.dimension[0])
