@@ -39,7 +39,7 @@ class ImageProcessing():
         
         
         index = 0
-        while ( (apex[0] != (-1, -1)) & (index < 100) ):
+        while ( (apex[1] != (-1, -1)) ):
 
             firstPoint = apex[0]
             secondPoint = apex[1]

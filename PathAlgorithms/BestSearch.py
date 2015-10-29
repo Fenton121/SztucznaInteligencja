@@ -48,7 +48,7 @@ class BestSearch():
             actualPointCoord = listOfActualApexes[0][0]
             self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 0
             
-            print "index =" + str(index) + "actualPointCoord = " + str(actualPointCoord)
+            #print "index =" + str(index) + "actualPointCoord = " + str(actualPointCoord)
             index = index + 1
             
             listOfNewPoints = self.getNewPoints(actualPointCoord)
