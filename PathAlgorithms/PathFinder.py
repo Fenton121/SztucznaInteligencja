@@ -1,6 +1,8 @@
 from ImageProcessing import ImageProcessing
+from Search import Search
 from BestSearch import BestSearch
 import timeit
+
 class PathFinder():
         
     def bestSearch(self):
@@ -8,9 +10,12 @@ class PathFinder():
         
         start = timeit.default_timer()
         
-        bestSearch = BestSearch(self.imageProcessing.getOccupiedPoints(),
-                                self.imageProcessing.getWeightsOfPoints(),
-                                self.imageProcessing.getDimension())
+        bestSearchAlgorithm = BestSearch()
+        
+        bestSearch = Search(bestSearchAlgorithm,
+                            self.imageProcessing.getOccupiedPoints(),
+                            self.imageProcessing.getWeightsOfPoints(),
+                            self.imageProcessing.getDimension())
         
         targetCoord, apexes = bestSearch.search()
         stop = timeit.default_timer()
