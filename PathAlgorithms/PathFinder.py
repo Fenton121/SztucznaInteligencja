@@ -2,20 +2,25 @@ from ImageProcessing import ImageProcessing
 from Search import Search
 from BestSearch import BestSearch
 from DeepSearch import DeepSearch
+from AlongSideSearch import AlongSideSearch
 import timeit
 
 class PathFinder():
         
     def findPathsVariusAlgo(self):
         
-        bestSearchAlgorithm = BestSearch()
-        deepSearchAlgorithm = DeepSearch()
+        bestSearchAlgorithm      = BestSearch()
+        deepSearchAlgorithm      = DeepSearch()
+        alongSideSearchAlgorithm = AlongSideSearch()
         
         print " ** Best Search **"
         self.executeAlgo(bestSearchAlgorithm)
         
         print " ** Deep Search **"
         self.executeAlgo(deepSearchAlgorithm)
+        
+        print " ** Alongside Search **"
+        self.executeAlgo(alongSideSearchAlgorithm)
         
     def executeAlgo(self,
                     specificAlgorithms):
