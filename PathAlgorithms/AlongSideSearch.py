@@ -4,7 +4,11 @@ import copy
 
 class AlongSideSearch():
     def __init__(self,
+                 startPointCoord,
+                 stopPointCoord,
                  weightsOfPoints):
+        self.startPointCoord = startPointCoord
+        self.stopPointCoord = stopPointCoord
         self.weightsOfPoints = weightsOfPoints
         
     def findIdxInList(self,
@@ -16,3 +20,9 @@ class AlongSideSearch():
                          xApexCoord,
                          yApexCoord):
         return self.weightsOfPoints[xApexCoord][yApexCoord]
+    
+    def getStartPointCoord(self):
+        return self.startPointCoord
+    
+    def getStopPointCoord(self):
+        return self.stopPointCoord 

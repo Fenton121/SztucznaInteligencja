@@ -25,8 +25,8 @@ class Search():
             self.occupiedPoints[listOfPoints[pointIdx][0]][listOfPoints[pointIdx][1]] = 0
             
     def search(self):
-        startPointCoord = (0, 0)
-        stopPointCoord = (455, 290)
+        startPointCoord = self.searchSpecAlgo.getStartPointCoord()
+        stopPointCoord  = self.searchSpecAlgo.getStopPointCoord()
         
         startApex = [startPointCoord, (-1, -1), 0]
         

@@ -12,9 +12,25 @@ class PathFinder():
         
         self.loadImage()
         
-        bestSearchAlgorithm      = BestSearch(self.imageProcessing.getWeightsOfPoints())
-        deepSearchAlgorithm      = DeepSearch(self.imageProcessing.getWeightsOfPoints())
-        alongSideSearchAlgorithm = AlongSideSearch(self.imageProcessing.getWeightsOfPoints())
+        startPointCoord = (0, 0)
+        stopPointCoord = (455, 290)
+        
+        bestSearchAlgorithm      = BestSearch(startPointCoord,
+                                              stopPointCoord,
+                                              self.imageProcessing.getWeightsOfPoints())
+        
+        deepSearchAlgorithm      = DeepSearch(startPointCoord,
+                                              stopPointCoord,
+                                              self.imageProcessing.getWeightsOfPoints())
+        
+        alongSideSearchAlgorithm = AlongSideSearch(startPointCoord,
+                                                   stopPointCoord,
+                                                   self.imageProcessing.getWeightsOfPoints())
+        
+#         greedySearchAlgorithm    = GreedySearch(startPointCoord,
+#                                                 stopPointCoord,
+#                                                 self.imageProcessing.getWeightsOfPoints())
+        
         print " ** Best Search **"
         self.executeAlgo(bestSearchAlgorithm)
         
@@ -24,6 +40,8 @@ class PathFinder():
         print " ** Alongside Search **"
         self.executeAlgo(alongSideSearchAlgorithm)
         
+#         print " ** Greedy Search **"
+#         self.executeAlgo(greedySearchAlgorithm)
         
     def executeAlgo(self,
                     specificAlgorithms):
