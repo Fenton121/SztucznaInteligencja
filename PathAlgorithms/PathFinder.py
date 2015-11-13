@@ -1,6 +1,7 @@
 from ImageProcessing import ImageProcessing
 from Search import Search
 from BestSearch import BestSearch
+from DeepSearch import DeepSearch
 import timeit
 
 class PathFinder():
@@ -8,9 +9,13 @@ class PathFinder():
     def findPathsVariusAlgo(self):
         
         bestSearchAlgorithm = BestSearch()
+        deepSearchAlgorithm = DeepSearch()
         
         print " ** Best Search **"
         self.executeAlgo(bestSearchAlgorithm)
+        
+        print " ** Deep Search **"
+        self.executeAlgo(deepSearchAlgorithm)
         
     def executeAlgo(self,
                     specificAlgorithms):

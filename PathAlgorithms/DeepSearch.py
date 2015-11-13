@@ -2,7 +2,7 @@ from Apex import Apex
 from Common import *
 import copy
 
-class BestSearch():
+class DeepSearch():
     def findIdxInList(self,
                       weightOfApex,
                       listOfActualApexes):
