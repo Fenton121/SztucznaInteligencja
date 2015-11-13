@@ -6,11 +6,9 @@ class Search():
     def __init__(self,
                  searchSpecAlgo,
                  occupiedPoints,
-                 weightsOfPoints,
                  dimension):
         self.searchSpecAlgo  = searchSpecAlgo
         self.occupiedPoints  = occupiedPoints
-        self.weightsOfPoints = weightsOfPoints
         self.dimension       = dimension
         
         self.apexes = []
@@ -43,7 +41,6 @@ class Search():
             self.occupiedPoints[actualPointCoord[0]][actualPointCoord[1]] = 0
             
             listOfNewPoints = self.getNewPoints(actualPointCoord)
-    
             self.setOccupiedPoints(listOfNewPoints)
             
             self.addApexes(listOfActualApexes,
@@ -71,7 +68,7 @@ class Search():
             
             newApex[1] = newApex[0]
             newApex[0] = listOfNewPoints[pointIdx]
-            newApex[2] = newApex[2] + self.weightsOfPoints[xApexCoord][yApexCoord]
+            newApex[2] = newApex[2] + self.searchSpecAlgo.getWeightOfPoint(xApexCoord, yApexCoord)
             
             self.apexes[xApexCoord][yApexCoord] = newApex
             

@@ -4,23 +4,26 @@ from BestSearch import BestSearch
 from DeepSearch import DeepSearch
 from AlongSideSearch import AlongSideSearch
 import timeit
+import copy
 
 class PathFinder():
         
     def findPathsVariusAlgo(self):
         
-        bestSearchAlgorithm      = BestSearch()
-        deepSearchAlgorithm      = DeepSearch()
-        alongSideSearchAlgorithm = AlongSideSearch()
+        self.loadImage()
         
+        bestSearchAlgorithm      = BestSearch(self.imageProcessing.getWeightsOfPoints())
+        deepSearchAlgorithm      = DeepSearch(self.imageProcessing.getWeightsOfPoints())
+        alongSideSearchAlgorithm = AlongSideSearch(self.imageProcessing.getWeightsOfPoints())
         print " ** Best Search **"
         self.executeAlgo(bestSearchAlgorithm)
         
         print " ** Deep Search **"
         self.executeAlgo(deepSearchAlgorithm)
-        
+          
         print " ** Alongside Search **"
         self.executeAlgo(alongSideSearchAlgorithm)
+        
         
     def executeAlgo(self,
                     specificAlgorithms):
@@ -31,7 +34,6 @@ class PathFinder():
     
         bestSearch = Search(specificAlgorithms,
                             self.imageProcessing.getOccupiedPoints(),
-                            self.imageProcessing.getWeightsOfPoints(),
                             self.imageProcessing.getDimension())
         
         targetCoord, apexes = bestSearch.search()

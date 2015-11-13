@@ -3,6 +3,10 @@ from Common import *
 import copy
 
 class BestSearch():
+    def __init__(self,
+                 weightsOfPoints):
+        self.weightsOfPoints = weightsOfPoints
+        
     def findIdxInList(self,
                       weightOfApex,
                       listOfActualApexes):
@@ -11,3 +15,8 @@ class BestSearch():
             if(weightOfApex < listOfActualApexes[apexIdx][2]):
                 return apexIdx
         return numOfApexes
+    
+    def getWeightOfPoint(self,
+                         xApexCoord,
+                         yApexCoord):
+        return self.weightsOfPoints[xApexCoord][yApexCoord]
