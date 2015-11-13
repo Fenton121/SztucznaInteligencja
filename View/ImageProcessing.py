@@ -20,7 +20,6 @@ class ImageProcessing():
 
     def getSize(self,):
         self.dimension = self.image.size
-        print self.dimension
 
     def loadImage(self):
         self.image= Image.open('Images/labirynt2.bmp') 

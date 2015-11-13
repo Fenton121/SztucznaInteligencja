@@ -5,14 +5,21 @@ import timeit
 
 class PathFinder():
         
-    def bestSearch(self):
-        self.loadImage()
-        
-        start = timeit.default_timer()
+    def findPathsVariusAlgo(self):
         
         bestSearchAlgorithm = BestSearch()
         
-        bestSearch = Search(bestSearchAlgorithm,
+        print " ** Best Search **"
+        self.executeAlgo(bestSearchAlgorithm)
+        
+    def executeAlgo(self,
+                    specificAlgorithms):
+        
+        self.loadImage()
+        
+        start = timeit.default_timer()
+    
+        bestSearch = Search(specificAlgorithms,
                             self.imageProcessing.getOccupiedPoints(),
                             self.imageProcessing.getWeightsOfPoints(),
                             self.imageProcessing.getDimension())
@@ -22,7 +29,7 @@ class PathFinder():
         self.dispaly(targetCoord, apexes)
 
         print "time = " + str(stop - start)
-
+        
         
     def loadImage(self):
         self.imageProcessing = ImageProcessing()
