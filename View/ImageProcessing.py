@@ -42,7 +42,7 @@ class ImageProcessing():
         
         for idxX in range(self.dimension[0]):
             for idxY in range(self.dimension[1]):
-                if(occupiedPoints[idxX][idxY] == 0):
+                if(occupiedPoints[idxX][idxY] == 0 and self.nonDrawPoints[idxX][idxY] == 0):
                     draw.point((idxX, idxY), fill=(201, 133, 185))
                      
         while ( (apex[1] != (-1, -1)) ):
@@ -79,6 +79,7 @@ class ImageProcessing():
             self.occupiedPoints.append([])
             for idxY in range(self.dimension[1]):
                 self.occupiedPoints[idxX].append(1)
+                
         
     def getOccupiedPoints(self):
         return self.occupiedPoints
@@ -90,18 +91,25 @@ class ImageProcessing():
         if( (weightOfPoint[2] > weightOfPoint[0]) and (weightOfPoint[2] > weightOfPoint[1])):
             return 2560
         if( (weightOfPoint[1] > weightOfPoint[0]) and (weightOfPoint[1] > weightOfPoint[2])):
-            return 0
+            return 1
         return 0
         
     def createWeightsOfPoints(self):
         self.weightsOfPoints = []
+        self.nonDrawPoints = []
         for idxX in range(self.dimension[0]):
             self.weightsOfPoints.append([])
+            self.nonDrawPoints.append([])
             for idxY in range(self.dimension[1]):
                 weightOfPoint = self.image.getpixel((idxX, idxY))
                 
                 weight = self.findWeightOfColor(weightOfPoint)
-                
+                if(weight) > 1:
+                    self.occupiedPoints[idxX][idxY] = 0
+                    self.nonDrawPoints[idxX].append(1)
+                else:
+                    self.nonDrawPoints[idxX].append(0)
+                    
 #                 print "weightOfPoint = " + str(weight)
                 self.weightsOfPoints[idxX].append(weight)
                 

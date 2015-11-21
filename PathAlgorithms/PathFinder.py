@@ -40,14 +40,14 @@ class PathFinder():
 #         print " ** Best Search **"
 #         self.executeAlgo(bestSearchAlgorithm)
 
-#         print " ** Alongside Search **"
-#         self.executeAlgo(alongSideSearchAlgorithm)
+        print " ** Alongside Search **"
+        self.executeAlgo(alongSideSearchAlgorithm)
 
 #         print " ** Deep Search **"
 #         self.executeAlgo(deepSearchAlgorithm)
   
-        print " ** Greedy Search **"
-        self.executeAlgo(greedySearchAlgorithm)
+#         print " ** Greedy Search **"
+#         self.executeAlgo(greedySearchAlgorithm)
 
 #         print " ** A** Search **"
 #         self.executeAlgo(aWithStarSearchAlgorithm)

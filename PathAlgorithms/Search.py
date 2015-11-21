@@ -68,8 +68,8 @@ class Search():
             yApexCoord = listOfNewPoints[pointIdx][1]
             
             newApex[1] = newApex[0]
-            newApex[0] = listOfNewPoints[pointIdx]
-            newApex[2] = newApex[2] + self.searchSpecAlgo.getWeightOfPoint(xApexCoord, yApexCoord)
+            newApex[0] = (listOfNewPoints[pointIdx][0], listOfNewPoints[pointIdx][1])
+            newApex[2] = newApex[2] + self.searchSpecAlgo.getWeightOfPoint(xApexCoord, yApexCoord) * listOfNewPoints[pointIdx][2]
             
             self.apexes[xApexCoord][yApexCoord] = newApex
             
@@ -96,7 +96,8 @@ class Search():
         
         for idxPoint in range(numOfAdjacentPoints):
             adjacentPoint = ( actualPointCoord[0] + adjacentPoints[idxPoint][0], 
-                              actualPointCoord[1] + adjacentPoints[idxPoint][1])
+                              actualPointCoord[1] + adjacentPoints[idxPoint][1], 
+                              adjacentPoints[idxPoint][2])
             if(self.isFreePoint(adjacentPoint)):
                 listOfNewPoints.append(adjacentPoint)
                 
