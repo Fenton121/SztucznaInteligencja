@@ -14,8 +14,8 @@ class PathFinder():
         
         self.loadImage()
         
-        startPointCoord = (0, 0)
-        stopPointCoord = (455, 290)
+        startPointCoord = (90, 89)
+        stopPointCoord = (70,45)
         
         bestSearchAlgorithm      = BestSearch(startPointCoord,
                                               stopPointCoord,
@@ -37,20 +37,20 @@ class PathFinder():
                                                    stopPointCoord,
                                                    self.imageProcessing.getWeightsOfPoints())
         
-        print " ** Best Search **"
-        self.executeAlgo(bestSearchAlgorithm)
-         
-        print " ** Deep Search **"
-        self.executeAlgo(deepSearchAlgorithm)
-           
-        print " ** Alongside Search **"
-        self.executeAlgo(alongSideSearchAlgorithm)
-        
+#         print " ** Best Search **"
+#         self.executeAlgo(bestSearchAlgorithm)
+
+#         print " ** Alongside Search **"
+#         self.executeAlgo(alongSideSearchAlgorithm)
+
+#         print " ** Deep Search **"
+#         self.executeAlgo(deepSearchAlgorithm)
+  
         print " ** Greedy Search **"
         self.executeAlgo(greedySearchAlgorithm)
-        
-        print " ** A** Search **"
-        self.executeAlgo(aWithStarSearchAlgorithm)
+
+#         print " ** A** Search **"
+#         self.executeAlgo(aWithStarSearchAlgorithm)
         
     def executeAlgo(self,
                     specificAlgorithms):
@@ -59,13 +59,13 @@ class PathFinder():
         
         start = timeit.default_timer()
     
-        bestSearch = Search(specificAlgorithms,
-                            self.imageProcessing.getOccupiedPoints(),
-                            self.imageProcessing.getDimension())
+        searchAlgorith = Search(specificAlgorithms,
+                                self.imageProcessing.getOccupiedPoints(),
+                                self.imageProcessing.getDimension())
         
-        targetCoord, apexes = bestSearch.search()
+        targetCoord, apexes, occupiedPoints = searchAlgorith.search()
         stop = timeit.default_timer()
-        self.dispaly(targetCoord, apexes)
+        self.dispaly(targetCoord, apexes, occupiedPoints)
 
         print "time = " + str(stop - start)
         
@@ -78,6 +78,8 @@ class PathFinder():
 
     def dispaly(self,
                 targetCoord,
-                apexes):
+                apexes,
+                occupiedPoints):
         self.imageProcessing.convertAndDisplay(targetCoord,
-                                               apexes)
+                                               apexes,
+                                               occupiedPoints)

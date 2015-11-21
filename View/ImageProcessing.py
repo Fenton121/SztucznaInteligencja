@@ -13,20 +13,22 @@ class ImageProcessing():
         
     def convertAndDisplay(self,
                           targetCoord,
-                          apexes):
+                          apexes,
+                          occupiedPoints):
         self.convertToRGB()
-        self.drawPaths(targetCoord, apexes)
+        self.drawPaths(targetCoord, apexes, occupiedPoints)
         self.showImage()
 
     def getSize(self,):
         self.dimension = self.image.size
 
     def loadImage(self):
-        self.image= Image.open('Images/labirynt2.bmp') 
+        self.image= Image.open('Images/dobry.bmp') 
 
     def drawPaths(self,
                   targetCoord,
-                  apexes):
+                  apexes,
+                  occupiedPoints):
 
         draw = ImageDraw.Draw(self.image)
 
@@ -38,11 +40,19 @@ class ImageProcessing():
         apex = apexes[xTargetCoord][yTargetCoord]
         
         
+        for idxX in range(self.dimension[0]):
+            for idxY in range(self.dimension[1]):
+                if(occupiedPoints[idxX][idxY] == 0):
+                    draw.point((idxX, idxY), fill=(201, 133, 185))
+                     
         while ( (apex[1] != (-1, -1)) ):
             firstPoint = apex[0]
             secondPoint = apex[1]
-            draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(233, 0, 0))
+            draw.line((firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]), fill=(255, 255, 0))
             apex = apexes[secondPoint[0]][secondPoint[1]]
+            
+
+
 
     def showImage(self):
         resizeX = operator.div(1366, self.dimension[0])
@@ -73,15 +83,27 @@ class ImageProcessing():
     def getOccupiedPoints(self):
         return self.occupiedPoints
     
+    def findWeightOfColor(self, weightOfPoint):
+         
+        if( (weightOfPoint[0] > weightOfPoint[1]) and (weightOfPoint[0] > weightOfPoint[2]) ):
+            return 1280
+        if( (weightOfPoint[2] > weightOfPoint[0]) and (weightOfPoint[2] > weightOfPoint[1])):
+            return 2560
+        if( (weightOfPoint[1] > weightOfPoint[0]) and (weightOfPoint[1] > weightOfPoint[2])):
+            return 0
+        return 0
+        
     def createWeightsOfPoints(self):
         self.weightsOfPoints = []
         for idxX in range(self.dimension[0]):
             self.weightsOfPoints.append([])
             for idxY in range(self.dimension[1]):
                 weightOfPoint = self.image.getpixel((idxX, idxY))
-                self.weightsOfPoints[idxX].append(256 - weightOfPoint)
-                if(weightOfPoint < 30):
-                    self.occupiedPoints[idxX][idxY] = 0
+                
+                weight = self.findWeightOfColor(weightOfPoint)
+                
+#                 print "weightOfPoint = " + str(weight)
+                self.weightsOfPoints[idxX].append(weight)
                 
     def getWeightsOfPoints(self):
         return self.weightsOfPoints

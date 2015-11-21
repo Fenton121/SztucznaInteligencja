@@ -19,7 +19,7 @@ class DeepSearch():
     def getWeightOfPoint(self,
                          xApexCoord,
                          yApexCoord):
-        return self.weightsOfPoints[xApexCoord][yApexCoord]
+        return 0
     
     def getStartPointCoord(self):
         return self.startPointCoord

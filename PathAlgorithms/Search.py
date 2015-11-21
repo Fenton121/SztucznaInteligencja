@@ -48,7 +48,7 @@ class Search():
                            stopPointCoord)
            
             
-        return listOfActualApexes[0][0], self.apexes
+        return listOfActualApexes[0][0], self.apexes, self.occupiedPoints
             
 
     def addApexes(self,
@@ -62,6 +62,7 @@ class Search():
         
         for pointIdx in range(numOfNewApexes):
             newApex = copy.copy(oldFirstApex)
+            
             
             xApexCoord = listOfNewPoints[pointIdx][0]
             yApexCoord = listOfNewPoints[pointIdx][1]
@@ -80,8 +81,8 @@ class Search():
     
     def isFreePoint(self,
                     adjacentPoint):     
-        if (( adjacentPoint[0] >= 0 ) & \
-            ( adjacentPoint[1] >= 0 ) & \
+        if (( adjacentPoint[0] >= 0 ) and \
+            ( adjacentPoint[1] >= 0 ) and \
             ( adjacentPoint[0] < self.dimension[0]) & \
             ( adjacentPoint[1] < self.dimension[1])):
             
